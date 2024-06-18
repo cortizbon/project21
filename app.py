@@ -25,6 +25,6 @@ for idx, col in enumerate(df.columns):
            bins=50)
     axes[idx].spines['top'].set_visible(False)
     axes[idx].spines['right'].set_visible(False)
-    axes[idx].set_title("X1", size=14)
+    axes[idx].set_title(col, size=14)
 
 st.pyplot(fig)
