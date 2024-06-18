@@ -16,7 +16,7 @@ df['C_mv_median'] = df['C_mv'].fillna(df['C_mv'].median())
 df = df.drop(columns=['A', 'B'])
 fig, axes = plt.subplots(1, 4, 
                          figsize=(10, 6),
-                         sharex=True)
+                         sharey=True)
 
 for idx, col in enumerate(df.columns):
     axes[idx].hist(df[col], 
