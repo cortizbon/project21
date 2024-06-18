@@ -1,32 +1,30 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
-st.title("Test - App")
+st.title("¿Por qué no rellenar datos faltantes con un estadístico general?")
 X = np.random.normal(0, 10, size=(10000, 3))
+df = pd.DataFrame(data=X,
+                  columns=list("ABC"))
 
-fig, ax = plt.subplots(1, 3, figsize=(10, 6))
+df['C_mv'] = [np.random.choice([i, np.nan], p=(0.8, 0.2)) for i in df['C']]
 
-ax[0].hist(X[::, 0], 
+df['C_mv_mean'] = df['C_mv'].fillna(df['C_mv'].mean())
+df['C_mv_median'] = df['C_mv'].fillna(df['C_mv'].median())
+
+df = df.drop(columns=['A', 'B'])
+fig, axes = plt.subplots(1, 4, 
+                         figsize=(10, 6),
+                         sharex=True)
+
+for idx, col in enumerate(df.columns):
+    axes[idx].hist(df[col], 
            color='red', 
            alpha=0.4, 
            bins=50)
-ax[0].spines['top'].set_visible(False)
-ax[0].spines['right'].set_visible(False)
-ax[0].set_title("X1", size=14)
-ax[1].hist(X[::, 1], 
-           color='orange', 
-           alpha=0.6, 
-           bins=50)
-ax[1].spines['top'].set_visible(False)
-ax[1].spines['right'].set_visible(False)
-ax[1].set_title("X2", size=14)
+    axes[idx].spines['top'].set_visible(False)
+    axes[idx].spines['right'].set_visible(False)
+    axes[idx].set_title("X1", size=14)
 
-ax[2].hist(X[::, 2], 
-           color='blue', 
-           alpha=0.2, 
-           bins=50)
-ax[2].spines['top'].set_visible(False)
-ax[2].spines['right'].set_visible(False)
-ax[2].set_title("X2", size=14)
 st.pyplot(fig)
